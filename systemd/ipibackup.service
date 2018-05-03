@@ -1,0 +1,46 @@
+[Unit]
+Description=iPhone backup
+Requires=usbmuxd.service
+After=usbmuxd.service
+# Useful but sometimes a bit dangerous
+#FailureAction=reboot
+
+[Service]
+Type=oneshot
+# Sometimes usbmux is not completely ready so force a delay. I know it's ugly
+ExecStartPre=/bin/sleep 1
+# Give some feedback about what happens
+ExecStartPre=/bin/sh -c "(echo -n start:; date -R) > /home/pi/iphone/status"
+# Needs the raspi-gpio package
+ExecStartPre=+-/usr/bin/raspi-gpio set 18 op
+ExecStartPre=+-/usr/bin/raspi-gpio set 18 dh
+# Make sure the destination folder exists
+ExecStartPre=/bin/mkdir -p /home/pi/iphone
+
+# Run the backup itself:w
+ExecStart=/usr/bin/idevicebackup2 backup /home/pi/iphone
+
+# Feedback again
+ExecStartPost=/bin/sh -c "(echo -n success:; date -R) >> /home/pi/iphone/status"
+ExecStartPost=+-/usr/bin/raspi-gpio set 18 dl
+# Unfortunately never called if backup fails
+ExecStopPost=/bin/sh -c "(echo -n stop:; date -R) >> /home/pi/iphone/status"
+
+# Hardening
+PrivateTmp=true
+PrivateNetwork=true
+# Doesn't work yet:
+# https://github.com/systemd/systemd/issues/8842 
+# fixed by https://github.com/systemd/systemd/pull/8866
+#PrivateDevices=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectHome=read-only
+NoNewPrivileges=true
+User=pi
+ReadWritePaths=/home/pi/iphone
+
+[Install]
+WantedBy=usbmuxd.service
