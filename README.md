@@ -161,6 +161,6 @@ Some ideas for the future:
 
 - [ ] move backup to separate, VFAT partition for easier MacOS/Windows restore
 - [ ] support remote backup host (maybe using sshfs?)
-- [ ] investigation various HAT, pHAT and shims for user feedback (e.g Pimoroni
-  buttons shim](https://shop.pimoroni.com/products/button-shim))
+- [ ] investigation various HAT, pHAT and shims for user feedback (e.g
+  [Pimoroni buttons shim](https://shop.pimoroni.com/products/button-shim))
 - [ ] find a way to get and report backup failure
