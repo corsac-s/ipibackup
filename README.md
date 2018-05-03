@@ -104,7 +104,9 @@ packages from Buster:
 
 #### Service configuration
 
-The backup itself is done using a simple [systemd unit file](systemd/ipibackup.service). Drop it into `/etc/systemd/system` and enable it with:
+The backup itself is done using a simple [systemd unit
+file](systemd/ipibackup.service). Drop it into `/etc/systemd/system` and enable
+it with:
 
 ```shell
 # systemctl enable ipibackup
@@ -161,3 +163,4 @@ Some ideas for the future:
 - [ ] support remote backup host (maybe using sshfs?)
 - [ ] investigation various HAT, pHAT and shims for user feedback (e.g Pimoroni
   buttons shim](https://shop.pimoroni.com/products/button-shim))
+- [ ] find a way to get and report backup failure
