@@ -66,6 +66,16 @@ names):
 # dd if=2018-04-18-raspbian-stretch-lite.img of=/dev/mmcblk0 bs=4M
 ```
 
+To make the backup easily available to MacOS and Windows computer, we also
+create a separate FAT32 partition for hosting the backup files. Restore can be
+done by taking the micro-SD card to a full computer running either iTunes or
+idevicebackup2.
+
+```shell
+# echo "start=1G,type=c" |  sfdisk -a /dev/mmcblk0
+# mkfs.vfat -n PIBACKUP /dev/mmcblk0p3
+```
+
 #### System configuration
 
 > **Note**:
@@ -100,6 +110,14 @@ packages from Buster:
 # sed -i 's/stretch/buster' /etc/apt/sources.list
 # apt update
 # apt install libimobiledevice-utils
+```
+
+We also need to mount the partition created above at the correct place:
+
+```shell
+# su pi -c "mkdir /home/pi/iphone"
+# echo "LABEL=PIBACKUP  /home/pi/iphone vfat  defaults,noatime,nodev,nosuid,noexec,uid=1000,gid=1000  0 1" >> /etc/fstab
+# mount /home/pi/iphone
 ```
 
 #### Service configuration
@@ -150,16 +168,19 @@ computer, plug your iPhone and do the restore from there, using:
 $ idevicebackup2 -i restore /path/to/backup/folder
 ``` 
 
-> **Note**:
-The archive format is compatible with iTunes so it should be possible to
-restore from it, but right now the backup sits on an ext4 partition which is
-not readable on Windows or MacOS.
+On a MacOS or Windows computer, you can copy the content of the backup folder
+(the folder with a long alphanumeric name, corresponding to your iPhone
+identifier) to the iTunes folder. On MacOS it should be `~/Library/Application
+Support/MobileSync/Backup/` while on Windows it should be
+`\Users\(username)\AppData\Roaming\Apple Computer\MobileSync\Backup\`. More
+information can be found on the dedicated [Apple support
+page](https://support.apple.com/en-us/HT204215)
 
 ## Future work
 
 Some ideas for the future:
 
-- [ ] move backup to separate, VFAT partition for easier MacOS/Windows restore
+- [x] move backup to separate, VFAT partition for easier MacOS/Windows restore
 - [ ] support remote backup host (maybe using sshfs?)
 - [ ] investigation various HAT, pHAT and shims for user feedback (e.g
   [Pimoroni buttons shim](https://shop.pimoroni.com/products/button-shim))
