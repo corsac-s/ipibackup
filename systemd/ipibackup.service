@@ -39,6 +39,12 @@ ProtectKernelModules=true
 ProtectControlGroups=true
 ProtectHome=read-only
 NoNewPrivileges=true
+MemoryDenyWriteExecute=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_UNIX
+RestrictRealtime=true
+LockPersonality=true
+SystemCallFilter=~@mount
 User=pi
 ReadWritePaths=/home/pi/iphone
 
