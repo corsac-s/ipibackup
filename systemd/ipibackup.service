@@ -17,7 +17,7 @@ ExecStartPre=+-/usr/bin/raspi-gpio set 18 dh
 # Make sure the destination folder exists
 ExecStartPre=/bin/mkdir -p /home/pi/iphone
 
-# Run the backup itself:w
+# Run the backup itself
 ExecStart=/usr/bin/idevicebackup2 backup /home/pi/iphone
 
 # Feedback again
