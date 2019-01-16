@@ -29,10 +29,10 @@ ExecStopPost=/bin/sh -c "(echo -n stop:; date -R) >> /home/pi/iphone/status"
 # Hardening
 PrivateTmp=true
 PrivateNetwork=true
-# Doesn't work yet:
+# PrivateDevices=true works with systemd >= 239
 # https://github.com/systemd/systemd/issues/8842 
 # fixed by https://github.com/systemd/systemd/pull/8866
-#PrivateDevices=true
+PrivateDevices=true
 ProtectSystem=strict
 ProtectKernelTunables=true
 ProtectKernelModules=true
