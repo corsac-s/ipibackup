@@ -165,8 +165,10 @@ If you need to do a restore, you can just put the microSD card in a different
 computer, plug your iPhone and do the restore from there, using:
 
 ```shell
-$ idevicebackup2 -i restore /path/to/backup/folder
-``` 
+$ idevicebackup2 -i --system --reboot restore /path/to/backup/folder
+```
+
+Also, make sure you have enough free space on your device to store the backup archive in it. The program idevicebackup2 will copy all the data and make sure the restoration data integrity is ok before switching to the backup you want to restore.
 
 On a MacOS or Windows computer, you can copy the content of the backup folder
 (the folder with a long alphanumeric name, corresponding to your iPhone
