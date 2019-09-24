@@ -63,7 +63,7 @@ Then burn the resulting image to your micro-SD card (adjust file and device
 names):
 
 ```shell
-# dd if=2018-04-18-raspbian-stretch-lite.img of=/dev/mmcblk0 bs=4M
+# dd if=2019-07-10-raspbian-buster-lite.img of=/dev/mmcblk0 bs=4M
 ```
 
 To make the backup easily available to MacOS and Windows computer, we also
@@ -102,12 +102,11 @@ really low)
 # echo max_usb_current=1 >> /boot/config.txt
 ```
 
-`libimobiledevice` as included in Debian Stretch (on which current Raspbian is
-based) doesn't support iOS 11, so for the time beeing we'll need to pick
-packages from Buster:
+`libimobiledevice` as included in Debian Stretch didn't support iOS 11 but
+current (as of Septembre 2019) Raspbian versions are based on Buster which work
+fine even with iOS 13.
 
 ```shell
-# sed -i 's/stretch/buster' /etc/apt/sources.list
 # apt update
 # apt install libimobiledevice-utils
 ```
@@ -184,6 +183,6 @@ Some ideas for the future:
 
 - [x] move backup to separate, VFAT partition for easier MacOS/Windows restore
 - [ ] support remote backup host (maybe using sshfs?)
-- [ ] investigation various HAT, pHAT and shims for user feedback (e.g
+- [ ] investigate various HAT, pHAT and shims for user feedback (e.g
   [Pimoroni buttons shim](https://shop.pimoroni.com/products/button-shim))
 - [ ] find a way to get and report backup failure
